@@ -131,15 +131,15 @@ def _sample_with_class_prior(baseline_preds, query_preds, exclude=None, n_sample
 # adapted from https://github.com/kacperChwialkowski/wildBootstrap
 # to generate a wild bootstrap process for MMD test
 def _wild_bootsrap_process(N_samples, N_per):
-    ln = 0.2
-    ar = np.exp(-1/ln)
-    variance = 1-np.exp(-2/ln)
+    blocksize = 0.2
+    ar = np.exp(-1/blocksize)
+    variance = 1-np.exp(-2/blocksize)
 
     w = np.sqrt(variance) * np.random.randn(N_samples, N_per)
     a = np.array([1,-1 * ar])
-    process = signal.lfilter(np.array([1]), a, w)
+    wb_process = signal.lfilter(np.array([1]), a, w)
 
-    return process
+    return wb_process
 
 def _apply_mmd_test(X, Y, N_per=100):
 
